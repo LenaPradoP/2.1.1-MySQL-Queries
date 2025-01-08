@@ -55,3 +55,26 @@ SELECT a.nombre, ce.anyo_inicio, ce.anyo_fin FROM universidad.alumno_se_matricul
 SELECT DISTINCT d.nombre AS departamento FROM universidad.departamento AS d JOIN universidad.profesor AS p ON d.id = p.id_departamento JOIN universidad.asignatura AS a ON p.id_profesor = a.id_profesor JOIN universidad.grado AS g ON a.id_grado = g.id WHERE g.nombre = 'Grado en Ingeniería Informática (Plan 2015)';
 SELECT DISTINCT p.nombre, p.apellido1, p.apellido2 FROM universidad.persona AS p JOIN universidad.alumno_se_matricula_asignatura AS am ON p.id = am.id_alumno JOIN universidad.curso_escolar AS ce ON am.id_curso_escolar = ce.id WHERE ce.anyo_inicio = 2018 AND ce.anyo_fin = 2019;
 
+- Resol les 6 següents consultes utilitzant les clàusules LEFT JOIN i RIGHT JOIN.
+
+SELECT d.nombre AS nom_departament, p.apellido1, p.apellido2, p.nombre FROM universidad.profesor pr LEFT JOIN universidad.departamento d ON pr.id_departamento = d.id JOIN universidad.persona p ON pr.id_profesor = p.id ORDER BY d.nombre ASC, p.apellido1 ASC, p.apellido2 ASC, p.nombre ASC;
+SELECT p.apellido1, p.apellido2, p.nombre FROM universidad.profesor pr LEFT JOIN universidad.departamento d ON pr.id_departamento = d.id JOIN universidad.persona p ON pr.id_profesor = p.id WHERE pr.id_departamento IS NULL;
+SELECT d.nombre AS departamento FROM universidad.departamento d RIGHT JOIN universidad.profesor pr ON d.id = pr.id_departamento WHERE pr.id_departamento IS NULL;
+SELECT p.apellido1, p.apellido2, p.nombre FROM universidad.profesor pr LEFT JOIN universidad.asignatura a ON pr.id_profesor = a.id_profesor JOIN universidad.persona p ON pr.id_profesor = p.id WHERE a.id_profesor IS NULL;
+SELECT a.nombre FROM universidad.asignatura a LEFT JOIN universidad.profesor pr ON a.id_profesor = pr.id_profesor WHERE pr.id_profesor IS NULL;
+-Retorna un llistat amb tots els departaments que no han impartit assignatures en cap curs escolar.
+
+
+SELECT COUNT(*) AS total_alumnos FROM universidad.persona WHERE tipo = 'alumno';
+SELECT COUNT(*) AS alumnos_nacimiento_1999 FROM universidad.persona WHERE tipo = 'alumno' AND YEAR(fecha_nacimiento) = 1999;
+SELECT d.nombre AS departamento, COUNT(pr.id_profesor) AS total_professores FROM universidad.departamento d JOIN universidad.profesor pr ON d.id = pr.id_departamento GROUP BY d.nombre ORDER BY total_professores DESC;
+SELECT d.nombre AS departamento, COUNT(pr.id_profesor) AS total_professores FROM universidad.departamento d LEFT JOIN universidad.profesor pr ON d.id = pr.id_departamento GROUP BY d.nombre;
+SELECT g.nombre AS grado, COUNT(a.id) AS total_asignaturas FROM universidad.grado g LEFT JOIN universidad.asignatura a ON g.id = a.id_grado GROUP BY g.nombre ORDER BY total_asignaturas DESC;
+SELECT g.nombre AS grado, COUNT(a.id) AS total_asignaturas FROM universidad.grado g LEFT JOIN universidad.asignatura a ON g.id = a.id_grado GROUP BY g.nombre HAVING COUNT(a.id) > 40;
+SELECT g.nombre AS grado, a.tipo, SUM(a.creditos) AS suma_creditos FROM universidad.grado g JOIN universidad.asignatura a ON g.id = a.id_grado GROUP BY g.id, a.tipo;
+SELECT ce.anyo_inicio AS inicio, COUNT(am.id_alumno) AS numero_alumnos FROM universidad.curso_escolar ce JOIN universidad.alumno_se_matricula_asignatura am ON ce.id = am.id_curso_escolar GROUP BY ce.id;
+SELECT pr.id_profesor, p.nombre, p.apellido1, p.apellido2, COUNT(a.id) AS numero_asignaturas FROM universidad.profesor pr LEFT JOIN universidad.asignatura a ON pr.id_profesor = a.id_profesor JOIN universidad.persona p ON pr.id_profesor = p.id GROUP BY pr.id_profesor ORDER BY numero_asignaturas DESC;
+SELECT * FROM universidad.persona WHERE id = (SELECT id FROM universidad.persona WHERE tipo = 'alumno' ORDER BY fecha_nacimiento DESC LIMIT 1);
+SELECT pr.id_profesor, p.nombre, p.apellido1, p.apellido2 FROM universidad.profesor pr LEFT JOIN universidad.persona p ON pr.id_profesor = p.id WHERE pr.id_departamento IS NOT NULL AND pr.id_profesor NOT IN (SELECT id_profesor FROM universidad.asignatura);
+
+

@@ -43,3 +43,15 @@ SELECT p.nombre FROM tienda.producto p JOIN tienda.fabricante f ON p.codigo_fabr
 SELECT p.* FROM tienda.producto p JOIN tienda.fabricante f ON p.codigo_fabricante = f.codigo WHERE p.precio >= (SELECT MAX(p2.precio) FROM tienda.producto p2 JOIN tienda.fabricante f2 ON p2.codigo_fabricante = f2.codigo WHERE f2.nombre = 'Lenovo');
 SELECT p.* FROM tienda.producto p JOIN tienda.fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre = 'Asus' AND p.precio > (SELECT AVG(precio) FROM tienda.producto WHERE codigo_fabricante = p.codigo_fabricante);
 
+- Consultas en Universidad
+
+SELECT apellido1, apellido2, nombre FROM universidad.persona WHERE tipo = 'alumno' ORDER BY apellido1, apellido2, nombre;
+SELECT nombre, apellido1, apellido2 FROM universidad.persona WHERE tipo = 'alumno' AND telefono IS NULL;
+SELECT * FROM universidad.persona WHERE tipo = 'alumno' AND YEAR(fecha_nacimiento) = 1999;
+SELECT * FROM universidad.persona WHERE tipo = 'profesor' AND telefono IS NULL AND nif LIKE '%K';
+SELECT * FROM universidad.asignatura WHERE cuatrimestre = 1 AND curso = 3 AND id_grado = 7;
+SELECT p.apellido1, p.apellido2, p.nombre, d.nombre AS departamento FROM universidad.profesor AS pr JOIN universidad.persona AS p ON pr.id_profesor = p.id JOIN universidad.departamento AS d ON pr.id_departamento = d.id ORDER BY p.apellido1, p.apellido2, p.nombre;
+SELECT a.nombre, ce.anyo_inicio, ce.anyo_fin FROM universidad.alumno_se_matricula_asignatura AS am JOIN universidad.asignatura AS a ON am.id_asignatura = a.id JOIN universidad.curso_escolar AS ce ON am.id_curso_escolar = ce.id JOIN universidad.persona AS p ON am.id_alumno = p.id WHERE p.nif = '26902806M';
+SELECT DISTINCT d.nombre AS departamento FROM universidad.departamento AS d JOIN universidad.profesor AS p ON d.id = p.id_departamento JOIN universidad.asignatura AS a ON p.id_profesor = a.id_profesor JOIN universidad.grado AS g ON a.id_grado = g.id WHERE g.nombre = 'Grado en Ingeniería Informática (Plan 2015)';
+SELECT DISTINCT p.nombre, p.apellido1, p.apellido2 FROM universidad.persona AS p JOIN universidad.alumno_se_matricula_asignatura AS am ON p.id = am.id_alumno JOIN universidad.curso_escolar AS ce ON am.id_curso_escolar = ce.id WHERE ce.anyo_inicio = 2018 AND ce.anyo_fin = 2019;
+

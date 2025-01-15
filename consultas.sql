@@ -29,7 +29,7 @@ SELECT p.nombre, p.precio, f.nombre As fabricante FROM producto p JOIN fabricant
 SELECT p.nombre, p.precio, f.nombre As fabricante FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre = 'Crucial' AND p.precio > 200;
 SELECT p.nombre, p.precio, f.nombre As fabricante FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE (f.nombre = 'Asus' OR f.nombre = 'Hewlett-Packard' OR f.nombre = 'Seagate');
 SELECT p.nombre, p.precio, f.nombre As fabricante FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre IN ('Asus', 'Hewlett-Packard', 'Seagate');
-SELECT p.nombre, p.precio, f.nombre As fabricante FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre REGEXP 'e$';
+SELECT p.nombre, p.precio, f.nombre As fabricante FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre LIKE '%E';
 SELECT p.nombre, p.precio, f.nombre As fabricante FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE f.nombre LIKE '%w%';
 SELECT p.nombre, p.precio, f.nombre AS fabricante FROM producto p JOIN fabricante f ON p.codigo_fabricante = f.codigo WHERE p.precio >= 180 ORDER BY p.precio DESC, p.nombre ASC;
 SELECT DISTINCT f.codigo, f.nombre FROM fabricante f JOIN producto p ON f.codigo = p.codigo_fabricante;
